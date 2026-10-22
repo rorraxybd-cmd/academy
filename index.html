@@ -3,16 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CSS & JS Live Preview Tester</title>
+  <title>Code Preview</title>
   <style>
     :root {
-      --bg-dark: #0a0a0c;
-      --panel-bg: #141419;
-      --border-color: #2a2a35;
+      --bg-dark: #08080a;
+      --panel-bg: #121217;
+      --card-bg: #1a1a22;
+      --border-color: #262633;
       --accent-gold: #d4af37;
       --accent-gold-gradient: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7);
       --text-main: #f0f0f5;
       --text-muted: #8a8a9e;
+      --danger-color: #e63946;
     }
 
     * {
@@ -24,31 +26,33 @@
     body {
       background-color: var(--bg-dark);
       color: var(--text-main);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
       display: flex;
       flex-direction: column;
       height: 100vh;
       overflow: hidden;
     }
 
-    /* Top Control Bar */
+    /* Header Bar */
     .header {
-      background: var(--panel-bg);
+      background: rgba(18, 18, 23, 0.95);
       border-bottom: 1px solid var(--border-color);
-      padding: 12px 20px;
+      padding: 12px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       z-index: 10;
+      backdrop-filter: blur(10px);
     }
 
     .brand-title {
-      font-size: 1.1rem;
-      font-weight: 700;
+      font-size: 1.25rem;
+      font-weight: 800;
       background: var(--accent-gold-gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
     }
 
     .controls {
@@ -57,15 +61,15 @@
     }
 
     .btn {
-      background: #1f1f28;
+      background: #1f1f2a;
       color: var(--text-main);
       border: 1px solid var(--border-color);
-      padding: 8px 16px;
+      padding: 8px 18px;
       border-radius: 6px;
       cursor: pointer;
       font-size: 0.85rem;
       font-weight: 600;
-      transition: all 0.2s ease;
+      transition: all 0.2s ease-in-out;
     }
 
     .btn:hover {
@@ -73,60 +77,71 @@
       color: #fff;
     }
 
+    .btn-clear {
+      background: rgba(230, 57, 70, 0.1);
+      border-color: rgba(230, 57, 70, 0.3);
+      color: #ff6b6b;
+    }
+
+    .btn-clear:hover {
+      background: var(--danger-color);
+      color: #fff;
+      border-color: var(--danger-color);
+    }
+
     .btn-gold {
       background: var(--accent-gold-gradient);
       color: #000;
       border: none;
       font-weight: 700;
+      box-shadow: 0 2px 10px rgba(212, 175, 55, 0.2);
     }
 
     .btn-gold:hover {
       opacity: 0.9;
-      color: #000;
+      transform: translateY(-1px);
     }
 
-    /* Main Grid Layout */
+    /* Main Container Layout */
     .main-container {
       display: flex;
       flex: 1;
-      height: calc(100vh - 60px);
+      height: calc(100vh - 61px);
     }
 
-    /* Left Panel: Inputs */
+    /* Sidebar Controls */
     .input-panel {
-      width: 380px;
-      min-width: 320px;
+      width: 400px;
+      min-width: 340px;
       background: var(--panel-bg);
       border-right: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
-      gap: 15px;
-      padding: 15px;
+      gap: 12px;
+      padding: 16px;
       overflow-y: auto;
     }
 
     .section-box {
-      background: #0f0f13;
+      background: var(--card-bg);
       border: 1px solid var(--border-color);
       border-radius: 8px;
       padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
 
     .section-title {
       font-size: 0.85rem;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--accent-gold);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-    }
-
-    /* File Upload Input */
-    .file-input-wrapper {
-      position: relative;
     }
 
     .file-input-wrapper input[type="file"] {
@@ -135,7 +150,7 @@
 
     .file-label {
       display: block;
-      background: #1a1a24;
+      background: #111116;
       border: 1px dashed var(--border-color);
       padding: 8px;
       text-align: center;
@@ -143,7 +158,7 @@
       color: var(--text-muted);
       font-size: 0.8rem;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.2s ease;
     }
 
     .file-label:hover {
@@ -151,11 +166,10 @@
       color: var(--text-main);
     }
 
-    /* Textareas for raw coding */
     textarea {
       width: 100%;
-      height: 140px;
-      background: #08080a;
+      height: 130px;
+      background: #0b0b0e;
       border: 1px solid var(--border-color);
       border-radius: 6px;
       color: #7ef2a9;
@@ -164,19 +178,23 @@
       padding: 10px;
       resize: vertical;
       outline: none;
+      transition: border-color 0.2s ease;
     }
 
     textarea:focus {
       border-color: var(--accent-gold);
     }
 
-    /* HTML Layout structure wrapper optional */
-    .html-box textarea {
-      color: #fca311;
-      height: 90px;
+    #jsCode {
+      color: #64dfdf;
     }
 
-    /* Right Panel: Preview Area */
+    #htmlCode {
+      color: #ffd166;
+      height: 100px;
+    }
+
+    /* Right Preview Screen */
     .preview-panel {
       flex: 1;
       background: #ffffff;
@@ -191,7 +209,7 @@
       background: #ffffff;
     }
 
-    /* Scrollbar Styling */
+    /* Scrollbars */
     ::-webkit-scrollbar {
       width: 6px;
       height: 6px;
@@ -210,30 +228,22 @@
 </head>
 <body>
 
-  <!-- Top Controls -->
+  <!-- Top Navigation Header -->
   <div class="header">
-    <div class="brand-title">Code Preview Tester</div>
+    <div class="brand-title">Code Preview</div>
     <div class="controls">
-      <button class="btn" onclick="clearAll()">Clear All</button>
+      <button class="btn btn-clear" onclick="clearAll()">Clear All</button>
       <button class="btn btn-gold" onclick="updatePreview()">Render Preview</button>
     </div>
   </div>
 
-  <!-- Main Container -->
+  <!-- Main Grid Layout -->
   <div class="main-container">
     
     <!-- Left Input Sidebar -->
     <div class="input-panel">
       
-      <!-- Optional Base HTML -->
-      <div class="section-box html-box">
-        <div class="section-title">
-          <span>HTML Body Elements</span>
-        </div>
-        <textarea id="htmlCode" placeholder="<div class='box'>Hello World</div>" oninput="updatePreview()"></textarea>
-      </div>
-
-      <!-- CSS Section -->
+      <!-- 1. CSS Section (Top) -->
       <div class="section-box">
         <div class="section-title">
           <span>CSS Stylesheet</span>
@@ -245,7 +255,7 @@
         <textarea id="cssCode" placeholder="Paste CSS code here..." oninput="updatePreview()"></textarea>
       </div>
 
-      <!-- JS Section -->
+      <!-- 2. JS Section (Middle) -->
       <div class="section-box">
         <div class="section-title">
           <span>JavaScript Code</span>
@@ -255,6 +265,14 @@
           <input type="file" id="jsFileInput" accept=".js" onchange="handleFileUpload(event, 'jsCode', 'jsFileLabel')">
         </div>
         <textarea id="jsCode" placeholder="Paste JS code here..." oninput="updatePreview()"></textarea>
+      </div>
+
+      <!-- 3. HTML Section (Bottom) -->
+      <div class="section-box">
+        <div class="section-title">
+          <span>HTML Body Elements</span>
+        </div>
+        <textarea id="htmlCode" placeholder="<div class='box'>Hello World</div>" oninput="updatePreview()"></textarea>
       </div>
 
     </div>
@@ -269,9 +287,9 @@
   <script>
     // Live Render function
     function updatePreview() {
-      const html = document.getElementById('htmlCode').value;
       const css = document.getElementById('cssCode').value;
       const js = document.getElementById('jsCode').value;
+      const html = document.getElementById('htmlCode').value;
 
       const iframe = document.getElementById('previewFrame');
       const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
@@ -286,7 +304,7 @@
           </style>
         </head>
         <body>
-          ${html || '<div id="app"></div>'}
+          ${html || ''}
           <script>
             try {
               ${js}
@@ -318,19 +336,22 @@
       reader.readAsText(file);
     }
 
-    // Clear function
+    // Instant Clear function
     function clearAll() {
-      document.getElementById('htmlCode').value = '';
       document.getElementById('cssCode').value = '';
       document.getElementById('jsCode').value = '';
+      document.getElementById('htmlCode').value = '';
+      
       document.getElementById('cssFileLabel').innerText = "Upload .css File";
       document.getElementById('jsFileLabel').innerText = "Upload .js File";
+      
       document.getElementById('cssFileInput').value = '';
       document.getElementById('jsFileInput').value = '';
+      
       updatePreview();
     }
 
-    // Initial render call
+    // Initial Empty Render
     updatePreview();
   </script>
 </body>
