@@ -2,17 +2,17 @@
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>rorraxy - Code Preview</title>
   <style>
     :root {
       --bg-dark: #08080a;
-      --panel-bg: rgba(18, 18, 23, 0.95);
-      --card-bg: #1a1a22;
-      --border-color: #262633;
+      --panel-bg: rgba(18, 18, 23, 0.96);
+      --card-bg: #16161e;
+      --border-color: #262635;
       --accent-gold: #d4af37;
       --accent-gold-gradient: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7);
-      --text-main: #f0f0f5;
+      --text-main: #ffffff;
       --text-muted: #8a8a9e;
       --danger-color: #e63946;
     }
@@ -63,30 +63,39 @@
       background: #ffffff;
     }
 
-    /* Floating Toggle Button (Always Available) */
+    /* Black Floating Toggle Button with Golden Gear Icon & White Text */
     .floating-toggle-btn {
       position: fixed;
       top: 15px;
       left: 15px;
       z-index: 999;
-      background: var(--accent-gold-gradient);
-      color: #000;
-      border: none;
-      padding: 10px 16px;
+      background: #0d0d12;
+      color: #ffffff;
+      border: 1px solid var(--border-color);
+      padding: 10px 18px;
       border-radius: 30px;
-      font-weight: 800;
-      font-size: 0.82rem;
+      font-weight: 700;
+      font-size: 0.85rem;
       cursor: pointer;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.8);
       display: flex;
       align-items: center;
-      gap: 8px;
-      transition: all 0.2s ease;
+      gap: 10px;
+      transition: all 0.25 ease;
+      backdrop-filter: blur(8px);
     }
 
     .floating-toggle-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 25px rgba(212, 175, 55, 0.4);
+      border-color: var(--accent-gold);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.25);
+    }
+
+    /* Golden SVG Gear Icon */
+    .gear-icon {
+      width: 18px;
+      height: 18px;
+      fill: url(#gold-grad);
     }
 
     /* Overlay Backdrop */
@@ -96,8 +105,8 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(5px);
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(6px);
       z-index: 1000;
       opacity: 0;
       pointer-events: none;
@@ -109,21 +118,21 @@
       pointer-events: auto;
     }
 
-    /* Floating Pop-up Code Panel Folder */
+    /* Floating Code Panel Folder */
     .popup-panel {
       position: fixed;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%) scale(0.9);
-      width: 420px;
-      max-width: 92vw;
+      transform: translate(-50%, -50%) scale(0.92);
+      width: 440px;
+      max-width: 94vw;
       max-height: 90vh;
       background: var(--panel-bg);
       border: 1px solid var(--border-color);
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 16px;
+      padding: 18px;
       z-index: 1001;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9);
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -143,72 +152,76 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-bottom: 8px;
+      padding-bottom: 10px;
       border-bottom: 1px solid var(--border-color);
     }
 
     .panel-title {
-      font-size: 0.9rem;
+      font-size: 0.92rem;
       font-weight: 800;
-      background: var(--accent-gold-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: #ffffff;
       letter-spacing: 0.5px;
       text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .close-btn {
       background: transparent;
       border: none;
       color: var(--text-muted);
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       cursor: pointer;
       line-height: 1;
+      padding: 4px;
     }
     .close-btn:hover { color: #fff; }
 
     .section-box {
       background: var(--card-bg);
       border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 10px;
+      border-radius: 10px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
     }
 
     .section-title {
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       font-weight: 700;
       color: var(--accent-gold);
       text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .file-input-wrapper input[type="file"] { display: none; }
 
     .file-label {
       display: block;
-      background: #111116;
+      background: #0d0d12;
       border: 1px dashed var(--border-color);
-      padding: 6px;
+      padding: 8px;
       text-align: center;
       border-radius: 6px;
       color: var(--text-muted);
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       cursor: pointer;
+      transition: all 0.2s ease;
     }
     .file-label:hover { border-color: var(--accent-gold); color: var(--text-main); }
 
     textarea {
       width: 100%;
       height: 130px;
-      background: #0b0b0e;
+      background: #08080b;
       border: 1px solid var(--border-color);
       border-radius: 6px;
       color: #7ef2a9;
       font-family: 'Consolas', monospace;
-      font-size: 0.8rem;
-      padding: 8px;
+      font-size: 0.82rem;
+      padding: 10px;
       resize: vertical;
       outline: none;
     }
@@ -220,10 +233,10 @@
       background: var(--accent-gold-gradient);
       color: #000;
       border: none;
-      padding: 10px;
-      border-radius: 6px;
+      padding: 12px;
+      border-radius: 8px;
       font-weight: 800;
-      font-size: 0.88rem;
+      font-size: 0.9rem;
       cursor: pointer;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -241,14 +254,14 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
 
     .view-switcher {
       display: flex;
-      background: #111116;
+      background: #0d0d12;
       border: 1px solid var(--border-color);
-      border-radius: 6px;
+      border-radius: 8px;
       padding: 2px;
       flex: 1;
     }
@@ -258,29 +271,30 @@
       background: transparent;
       border: none;
       color: var(--text-muted);
-      padding: 6px;
-      font-size: 0.75rem;
+      padding: 7px;
+      font-size: 0.78rem;
       font-weight: 600;
       cursor: pointer;
-      border-radius: 4px;
+      border-radius: 6px;
       text-align: center;
       transition: all 0.2s ease;
     }
 
     .view-btn.active {
-      background: #22222d;
+      background: #1f1f2c;
       color: var(--accent-gold);
     }
 
     .btn-clear {
-      background: rgba(230, 57, 70, 0.1);
-      border: 1px solid rgba(230, 57, 70, 0.3);
+      background: rgba(230, 57, 70, 0.12);
+      border: 1px solid rgba(230, 57, 70, 0.35);
       color: #ff6b6b;
-      padding: 6px 12px;
-      border-radius: 6px;
+      padding: 7px 14px;
+      border-radius: 8px;
       cursor: pointer;
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       font-weight: 600;
+      transition: all 0.2s ease;
     }
 
     .btn-clear:hover {
@@ -292,16 +306,36 @@
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: var(--bg-dark); }
     ::-webkit-scrollbar-thumb { background: #2a2a35; border-radius: 2px; }
+
+    /* Mobile Adaptations */
+    @media (max-width: 600px) {
+      .popup-panel { padding: 14px; gap: 10px; }
+      textarea { height: 110px; }
+      .floating-toggle-btn { top: 10px; left: 10px; padding: 8px 14px; font-size: 0.8rem; }
+    }
   </style>
 </head>
 <body>
 
-  <!-- Floating Toggle Button on Canvas -->
+  <!-- Hidden SVG for Gold Gradient definition -->
+  <svg width="0" height="0" style="position:absolute;">
+    <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#bf953f" />
+      <stop offset="33%" stop-color="#fcf6ba" />
+      <stop offset="66%" stop-color="#b38728" />
+      <stop offset="100%" stop-color="#fbf5b7" />
+    </linearGradient>
+  </svg>
+
+  <!-- Black Floating Toggle Button with Golden Gear -->
   <button class="floating-toggle-btn" onclick="togglePopup(true)">
-    ⚙️ Code Editor
+    <svg class="gear-icon" viewBox="0 0 24 24">
+      <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+    </svg>
+    <span style="color:#ffffff;">Code Editor</span>
   </button>
 
-  <!-- Full Screen Preview Area -->
+  <!-- Full Screen Canvas Preview Area -->
   <div class="preview-container">
     <div class="iframe-wrapper" id="iframeWrapper">
       <iframe id="previewFrame"></iframe>
@@ -323,8 +357,9 @@
       <div class="section-box">
         <div class="section-title">CSS STYLESHEET</div>
         <div class="file-input-wrapper">
-          <label class="file-label" for="cssFileInput" id="cssFileLabel">Upload .css File</label>
-          <input type="file" id="cssFileInput" accept=".css" onchange="handleFileUpload(event, 'cssCode', 'cssFileLabel')">
+          <label class="file-label" for="cssFileInput" id="cssFileLabel">Upload CSS / Any Code File</label>
+          <!-- accept="*" set to allow selecting all types of files freely -->
+          <input type="file" id="cssFileInput" accept="*" onchange="handleFileUpload(event, 'cssCode', 'cssFileLabel')">
         </div>
         <textarea id="cssCode" placeholder="Paste CSS code here..."></textarea>
       </div>
@@ -333,8 +368,9 @@
       <div class="section-box">
         <div class="section-title">JAVASCRIPT CODE</div>
         <div class="file-input-wrapper">
-          <label class="file-label" for="jsFileInput" id="jsFileLabel">Upload .js File</label>
-          <input type="file" id="jsFileInput" accept=".js" onchange="handleFileUpload(event, 'jsCode', 'jsFileLabel')">
+          <label class="file-label" for="jsFileInput" id="jsFileLabel">Upload JS / Any Code File</label>
+          <!-- accept="*" set to allow selecting all types of files freely -->
+          <input type="file" id="jsFileInput" accept="*" onchange="handleFileUpload(event, 'jsCode', 'jsFileLabel')">
         </div>
         <textarea id="jsCode" placeholder="Paste JS code here..."></textarea>
       </div>
@@ -432,7 +468,7 @@
       }
     }
 
-    // File Upload Reader
+    // File Upload Reader (Supports all text/code files)
     function handleFileUpload(event, targetTextareaId, labelId) {
       const file = event.target.files[0];
       if (!file) return;
@@ -450,8 +486,8 @@
     function clearAll() {
       document.getElementById('cssCode').value = '';
       document.getElementById('jsCode').value = '';
-      document.getElementById('cssFileLabel').innerText = "Upload .css File";
-      document.getElementById('jsFileLabel').innerText = "Upload .js File";
+      document.getElementById('cssFileLabel').innerText = "Upload CSS / Any Code File";
+      document.getElementById('jsFileLabel').innerText = "Upload JS / Any Code File";
       document.getElementById('cssFileInput').value = '';
       document.getElementById('jsFileInput').value = '';
       
