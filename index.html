@@ -63,7 +63,7 @@
       background: #ffffff;
     }
 
-    /* Black Floating Toggle Button with Golden Gear Icon & White Text */
+    /* Floating Toggle Button with Golden Gear Icon & White Text */
     .floating-toggle-btn {
       position: fixed;
       top: 15px;
@@ -81,7 +81,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      transition: all 0.25 ease;
+      transition: all 0.25s ease;
       backdrop-filter: blur(8px);
     }
 
@@ -126,7 +126,6 @@
       transform: translate(-50%, -50%) scale(0.92);
       width: 440px;
       max-width: 94vw;
-      max-height: 90vh;
       background: var(--panel-bg);
       border: 1px solid var(--border-color);
       border-radius: 16px;
@@ -139,7 +138,6 @@
       opacity: 0;
       pointer-events: none;
       transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      overflow-y: auto;
     }
 
     .popup-backdrop.active .popup-panel {
@@ -188,6 +186,11 @@
       gap: 8px;
     }
 
+    /* Dynamic HTML Box (Hidden by default) */
+    #htmlSectionBox {
+      display: none;
+    }
+
     .section-title {
       font-size: 0.78rem;
       font-weight: 700;
@@ -226,28 +229,56 @@
       outline: none;
     }
     textarea:focus { border-color: var(--accent-gold); }
+    #htmlCode { color: #ff9e64; height: 250px; }
     #jsCode { color: #64dfdf; }
 
-    /* Controls inside Pop-up */
+    /* Action Buttons Row */
+    .action-btn-row {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+    }
+
     .btn-generate {
+      flex: 1;
       background: var(--accent-gold-gradient);
       color: #000;
       border: none;
       padding: 12px;
       border-radius: 8px;
       font-weight: 800;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       cursor: pointer;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       box-shadow: 0 4px 15px rgba(212, 175, 55, 0.25);
       transition: all 0.2s ease;
-      width: 100%;
     }
 
     .btn-generate:hover {
       opacity: 0.92;
       transform: translateY(-1px);
+    }
+
+    .btn-html-toggle {
+      flex: 1;
+      background: #191924;
+      color: #ffffff;
+      border: 1px solid var(--border-color);
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.82rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-html-toggle:hover {
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+      background: #222230;
     }
 
     .sub-controls {
@@ -310,7 +341,8 @@
     /* Mobile Adaptations */
     @media (max-width: 600px) {
       .popup-panel { padding: 14px; gap: 10px; }
-      textarea { height: 110px; }
+      textarea { height: 100px; }
+      #htmlCode { height: 200px; }
       .floating-toggle-btn { top: 10px; left: 10px; padding: 8px 14px; font-size: 0.8rem; }
     }
   </style>
@@ -330,7 +362,7 @@
   <!-- Black Floating Toggle Button with Golden Gear -->
   <button class="floating-toggle-btn" onclick="togglePopup(true)">
     <svg class="gear-icon" viewBox="0 0 24 24">
-      <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+      <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6-3.6z"/>
     </svg>
     <span style="color:#ffffff;">Code Editor</span>
   </button>
@@ -349,34 +381,48 @@
     <div class="popup-panel">
       
       <div class="panel-header">
-        <div class="panel-title">Code Editor Panel</div>
+        <div class="panel-title" id="panelTitle">Code Editor Panel</div>
         <button class="close-btn" onclick="togglePopup(false)">✕</button>
       </div>
 
-      <!-- 1. CSS Box -->
-      <div class="section-box">
-        <div class="section-title">CSS STYLESHEET</div>
-        <div class="file-input-wrapper">
-          <label class="file-label" for="cssFileInput" id="cssFileLabel">Upload CSS / Any Code File</label>
-          <!-- accept="*" set to allow selecting all types of files freely -->
-          <input type="file" id="cssFileInput" accept="*" onchange="handleFileUpload(event, 'cssCode', 'cssFileLabel')">
+      <!-- Mode 1: CSS & JS Boxes -->
+      <div id="cssJsContainer">
+        <!-- 1. CSS Box -->
+        <div class="section-box" style="margin-bottom: 10px;">
+          <div class="section-title">CSS STYLESHEET</div>
+          <div class="file-input-wrapper">
+            <label class="file-label" for="cssFileInput" id="cssFileLabel">Upload CSS / Any Code File</label>
+            <input type="file" id="cssFileInput" accept="*" onchange="handleFileUpload(event, 'cssCode', 'cssFileLabel')">
+          </div>
+          <textarea id="cssCode" placeholder="Paste CSS code here..."></textarea>
         </div>
-        <textarea id="cssCode" placeholder="Paste CSS code here..."></textarea>
+
+        <!-- 2. JS Box -->
+        <div class="section-box">
+          <div class="section-title">JAVASCRIPT CODE</div>
+          <div class="file-input-wrapper">
+            <label class="file-label" for="jsFileInput" id="jsFileLabel">Upload JS / Any Code File</label>
+            <input type="file" id="jsFileInput" accept="*" onchange="handleFileUpload(event, 'jsCode', 'jsFileLabel')">
+          </div>
+          <textarea id="jsCode" placeholder="Paste JS code here..."></textarea>
+        </div>
       </div>
 
-      <!-- 2. JS Box -->
-      <div class="section-box">
-        <div class="section-title">JAVASCRIPT CODE</div>
+      <!-- Mode 2: Single HTML Box (Shows ONLY when HTML Mode is clicked) -->
+      <div class="section-box" id="htmlSectionBox">
+        <div class="section-title">HTML MARKUP</div>
         <div class="file-input-wrapper">
-          <label class="file-label" for="jsFileInput" id="jsFileLabel">Upload JS / Any Code File</label>
-          <!-- accept="*" set to allow selecting all types of files freely -->
-          <input type="file" id="jsFileInput" accept="*" onchange="handleFileUpload(event, 'jsCode', 'jsFileLabel')">
+          <label class="file-label" for="htmlFileInput" id="htmlFileLabel">Upload HTML / Any Code File</label>
+          <input type="file" id="htmlFileInput" accept="*" onchange="handleFileUpload(event, 'htmlCode', 'htmlFileLabel')">
         </div>
-        <textarea id="jsCode" placeholder="Paste JS code here..."></textarea>
+        <textarea id="htmlCode" placeholder="Paste complete HTML code here..."></textarea>
       </div>
 
-      <!-- Generate Button -->
-      <button class="btn-generate" onclick="generatePage()">GENERATE</button>
+      <!-- Split Action Buttons -->
+      <div class="action-btn-row">
+        <button class="btn-generate" onclick="generatePage()">GENERATE</button>
+        <button class="btn-html-toggle" id="htmlToggleBtn" onclick="switchMode()">HTML CODE</button>
+      </div>
 
       <!-- View Controls & Clear All -->
       <div class="sub-controls">
@@ -392,6 +438,8 @@
   </div>
 
   <script>
+    let currentMode = 'cssjs'; // 'cssjs' or 'html'
+
     // Pop-up Toggle Logic
     function togglePopup(show) {
       const backdrop = document.getElementById('popupBackdrop');
@@ -399,6 +447,30 @@
         backdrop.classList.add('active');
       } else {
         backdrop.classList.remove('active');
+      }
+    }
+
+    // Switch between (CSS + JS Mode) and (Single HTML Mode)
+    function switchMode() {
+      const cssJsBox = document.getElementById('cssJsContainer');
+      const htmlBox = document.getElementById('htmlSectionBox');
+      const toggleBtn = document.getElementById('htmlToggleBtn');
+      const title = document.getElementById('panelTitle');
+
+      if (currentMode === 'cssjs') {
+        // Hide CSS + JS, Show ONLY HTML
+        cssJsBox.style.display = 'none';
+        htmlBox.style.display = 'flex';
+        toggleBtn.innerText = 'CSS & JS CODE';
+        title.innerText = 'HTML Editor Panel';
+        currentMode = 'html';
+      } else {
+        // Show CSS + JS, Hide HTML
+        cssJsBox.style.display = 'block';
+        htmlBox.style.display = 'none';
+        toggleBtn.innerText = 'HTML CODE';
+        title.innerText = 'Code Editor Panel';
+        currentMode = 'cssjs';
       }
     }
 
@@ -411,43 +483,56 @@
 
     // Generate HTML Page and Render Frame
     function generatePage() {
+      const html = document.getElementById('htmlCode').value;
       const css = document.getElementById('cssCode').value;
       const js = document.getElementById('jsCode').value;
 
       const iframe = document.getElementById('previewFrame');
       const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
 
-      const fullSource = `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <style>
-            ${css}
-          </style>
-        </head>
-        <body>
+      let fullSource = '';
+
+      if (currentMode === 'html' && html.trim()) {
+        // Render Pure HTML input
+        fullSource = html;
+      } else {
+        // Render CSS + JS mode with fallback container
+        const bodyContent = html.trim() ? html : `
           <div id="statusAlert" style="display:none;"></div>
           <div id="app"></div>
           <div id="root"></div>
+        `;
 
-          <script>
-            try {
-              ${js}
-            } catch (err) {
-              console.error(err);
-            }
-          <\/script>
-        </body>
-        </html>
-      `;
+        fullSource = `
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+              ${css}
+            </style>
+          </head>
+          <body>
+            ${bodyContent}
+
+            <script>
+              try {
+                ${js}
+              } catch (err) {
+                console.error(err);
+              }
+            <\/script>
+          </body>
+          </html>
+        `;
+      }
 
       iframeDoc.open();
       iframeDoc.write(fullSource);
       iframeDoc.close();
 
-      // Automatically hide popup after generating for clean view
+      // Automatically hide popup after generating
       togglePopup(false);
     }
 
@@ -468,7 +553,7 @@
       }
     }
 
-    // File Upload Reader (Supports all text/code files)
+    // File Upload Reader
     function handleFileUpload(event, targetTextareaId, labelId) {
       const file = event.target.files[0];
       if (!file) return;
@@ -484,10 +569,13 @@
 
     // Clear All Functionality
     function clearAll() {
+      document.getElementById('htmlCode').value = '';
       document.getElementById('cssCode').value = '';
       document.getElementById('jsCode').value = '';
+      document.getElementById('htmlFileLabel').innerText = "Upload HTML / Any Code File";
       document.getElementById('cssFileLabel').innerText = "Upload CSS / Any Code File";
       document.getElementById('jsFileLabel').innerText = "Upload JS / Any Code File";
+      document.getElementById('htmlFileInput').value = '';
       document.getElementById('cssFileInput').value = '';
       document.getElementById('jsFileInput').value = '';
       
