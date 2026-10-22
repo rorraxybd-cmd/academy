@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Code Preview</title>
+  <title>rorraxy - Code Preview</title>
   <style>
     :root {
       --bg-dark: #08080a;
@@ -23,115 +23,36 @@
       background-color: var(--bg-dark);
       color: var(--text-main);
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      display: flex;
-      flex-direction: column;
       height: 100vh;
       overflow: hidden;
     }
 
-    /* Ultra-Slim Top Navigation Header */
-    .header {
-      background: rgba(18, 18, 23, 0.98);
-      border-bottom: 1px solid var(--border-color);
-      padding: 6px 16px;
+    /* Main Container Layout (Full 100vh) */
+    .main-container {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 10;
-      height: 42px;
+      height: 100vh;
+      width: 100vw;
     }
 
-    .brand-title {
-      font-size: 1rem;
-      font-weight: 800;
-      background: var(--accent-gold-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-
-    .controls { display: flex; gap: 8px; align-items: center; }
-
-    /* View Switcher Controls */
-    .view-switcher {
-      display: flex;
-      background: #111116;
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      padding: 2px;
-      margin-right: 10px;
-    }
-
-    .view-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      padding: 4px 10px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      cursor: pointer;
-      border-radius: 4px;
-      transition: all 0.2s ease;
-    }
-
-    .view-btn.active {
-      background: #22222d;
-      color: var(--accent-gold);
-    }
-
-    .btn {
-      background: #1f1f2a;
-      color: var(--text-main);
-      border: 1px solid var(--border-color);
-      padding: 5px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.78rem;
-      font-weight: 600;
-      transition: all 0.2s ease;
-    }
-
-    .btn:hover { border-color: var(--accent-gold); color: #fff; }
-    .btn-clear { background: rgba(230, 57, 70, 0.1); border-color: rgba(230, 57, 70, 0.3); color: #ff6b6b; }
-    .btn-clear:hover { background: var(--danger-color); color: #fff; }
-
-    /* Generate Button */
-    .btn-generate {
-      background: var(--accent-gold-gradient);
-      color: #000;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-weight: 800;
-      font-size: 0.9rem;
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
-      transition: all 0.2s ease;
-      margin-top: 4px;
-      width: 100%;
-    }
-
-    .btn-generate:hover {
-      opacity: 0.92;
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
-    }
-
-    /* Main Container Layout */
-    .main-container { display: flex; flex: 1; height: calc(100vh - 42px); }
-
+    /* Left Input Sidebar Panel */
     .input-panel {
       width: 360px;
-      min-width: 300px;
+      min-width: 310px;
       background: var(--panel-bg);
       border-right: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
       padding: 12px;
+      height: 100vh;
+      justify-content: space-between;
+    }
+
+    .editor-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
       overflow-y: auto;
     }
 
@@ -146,7 +67,7 @@
     }
 
     .section-title {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 700;
       color: var(--accent-gold);
       text-transform: uppercase;
@@ -159,24 +80,25 @@
       display: block;
       background: #111116;
       border: 1px dashed var(--border-color);
-      padding: 7px;
+      padding: 6px;
       text-align: center;
       border-radius: 6px;
       color: var(--text-muted);
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       cursor: pointer;
+      transition: all 0.2s ease;
     }
     .file-label:hover { border-color: var(--accent-gold); color: var(--text-main); }
 
     textarea {
       width: 100%;
-      height: 200px;
+      height: 140px;
       background: #0b0b0e;
       border: 1px solid var(--border-color);
       border-radius: 6px;
       color: #7ef2a9;
       font-family: 'Consolas', monospace;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       padding: 8px;
       resize: vertical;
       outline: none;
@@ -184,25 +106,108 @@
     textarea:focus { border-color: var(--accent-gold); }
     #jsCode { color: #64dfdf; }
 
-    /* Maximized Full Height Preview Canvas */
+    /* Bottom Toolbar Panel inside Sidebar */
+    .bottom-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border-color);
+      background: var(--panel-bg);
+    }
+
+    .btn-generate {
+      background: var(--accent-gold-gradient);
+      color: #000;
+      border: none;
+      padding: 10px;
+      border-radius: 6px;
+      font-weight: 800;
+      font-size: 0.88rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 3px 12px rgba(212, 175, 55, 0.2);
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+
+    .btn-generate:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+      box-shadow: 0 5px 16px rgba(212, 175, 55, 0.35);
+    }
+
+    .sub-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Device Switcher */
+    .view-switcher {
+      display: flex;
+      background: #111116;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 2px;
+      flex: 1;
+    }
+
+    .view-btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 5px 6px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .view-btn.active {
+      background: #22222d;
+      color: var(--accent-gold);
+    }
+
+    .btn-clear {
+      background: rgba(230, 57, 70, 0.1);
+      border: 1px solid rgba(230, 57, 70, 0.3);
+      color: #ff6b6b;
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.72rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .btn-clear:hover {
+      background: var(--danger-color);
+      color: #fff;
+    }
+
+    /* Right Full-Height Live Preview Canvas */
     .preview-panel {
       flex: 1;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100%;
+      height: 100vh;
       background: #000000;
       overflow: hidden;
       position: relative;
     }
 
-    /* Responsive Iframe Frame Container */
     .iframe-wrapper {
       width: 100%;
       height: 100%;
       transition: all 0.3s ease-in-out;
       background: #ffffff;
-      box-shadow: 0 0 30px rgba(0,0,0,0.8);
     }
 
     .iframe-wrapper.mobile-view {
@@ -211,6 +216,7 @@
       border-radius: 20px;
       border: 8px solid #222;
       overflow: hidden;
+      box-shadow: 0 0 30px rgba(0,0,0,0.8);
     }
 
     iframe {
@@ -220,7 +226,7 @@
       background: #ffffff;
     }
 
-    /* Custom Scrollbar */
+    /* Scrollbars */
     ::-webkit-scrollbar { width: 5px; height: 5px; }
     ::-webkit-scrollbar-track { background: var(--bg-dark); }
     ::-webkit-scrollbar-thumb { background: #2a2a35; border-radius: 3px; }
@@ -229,51 +235,50 @@
 </head>
 <body>
 
-  <!-- Top Header Bar -->
-  <div class="header">
-    <div class="brand-title">Code Preview</div>
-    <div class="controls">
-      <!-- Device View Switcher -->
-      <div class="view-switcher">
-        <button class="view-btn active" id="desktopViewBtn" onclick="switchView('desktop')">💻 Desktop</button>
-        <button class="view-btn" id="mobileViewBtn" onclick="switchView('mobile')">📱 Mobile</button>
-      </div>
-
-      <button class="btn btn-clear" onclick="clearAll()">Clear All</button>
-    </div>
-  </div>
-
   <div class="main-container">
     
-    <!-- Left Input Panel -->
+    <!-- Left Panel -->
     <div class="input-panel">
       
-      <!-- 1. CSS Box -->
-      <div class="section-box">
-        <div class="section-title">CSS STYLESHEET</div>
-        <div class="file-input-wrapper">
-          <label class="file-label" for="cssFileInput" id="cssFileLabel">Upload .css File</label>
-          <input type="file" id="cssFileInput" accept=".css" onchange="handleFileUpload(event, 'cssCode', 'cssFileLabel')">
+      <!-- Top Section (CSS & JS inputs) -->
+      <div class="editor-section">
+        <!-- 1. CSS Box -->
+        <div class="section-box">
+          <div class="section-title">CSS STYLESHEET</div>
+          <div class="file-input-wrapper">
+            <label class="file-label" for="cssFileInput" id="cssFileLabel">Upload .css File</label>
+            <input type="file" id="cssFileInput" accept=".css" onchange="handleFileUpload(event, 'cssCode', 'cssFileLabel')">
+          </div>
+          <textarea id="cssCode" placeholder="Paste CSS code here..."></textarea>
         </div>
-        <textarea id="cssCode" placeholder="Paste CSS code here..."></textarea>
+
+        <!-- 2. JS Box -->
+        <div class="section-box">
+          <div class="section-title">JAVASCRIPT CODE</div>
+          <div class="file-input-wrapper">
+            <label class="file-label" for="jsFileInput" id="jsFileLabel">Upload .js File</label>
+            <input type="file" id="jsFileInput" accept=".js" onchange="handleFileUpload(event, 'jsCode', 'jsFileLabel')">
+          </div>
+          <textarea id="jsCode" placeholder="Paste JS code here..."></textarea>
+        </div>
       </div>
 
-      <!-- 2. JS Box -->
-      <div class="section-box">
-        <div class="section-title">JAVASCRIPT CODE</div>
-        <div class="file-input-wrapper">
-          <label class="file-label" for="jsFileInput" id="jsFileLabel">Upload .js File</label>
-          <input type="file" id="jsFileInput" accept=".js" onchange="handleFileUpload(event, 'jsCode', 'jsFileLabel')">
+      <!-- Bottom Controls Area (Always Visible) -->
+      <div class="bottom-controls">
+        <button class="btn-generate" onclick="generatePage()">GENERATE</button>
+        
+        <div class="sub-controls">
+          <div class="view-switcher">
+            <button class="view-btn active" id="desktopViewBtn" onclick="switchView('desktop')">💻 Desktop</button>
+            <button class="view-btn" id="mobileViewBtn" onclick="switchView('mobile')">📱 Mobile</button>
+          </div>
+          <button class="btn-clear" onclick="clearAll()">Clear All</button>
         </div>
-        <textarea id="jsCode" placeholder="Paste JS code here..."></textarea>
       </div>
-
-      <!-- Generate Button -->
-      <button class="btn-generate" onclick="generatePage()">GENERATE</button>
 
     </div>
 
-    <!-- Right Live Preview Screen (Full Screen Height) -->
+    <!-- Right Live Preview Canvas (Top to Bottom Clean View) -->
     <div class="preview-panel">
       <div class="iframe-wrapper" id="iframeWrapper">
         <iframe id="previewFrame"></iframe>
