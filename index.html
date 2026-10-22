@@ -17,23 +17,18 @@
       --danger-color: #e63946;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background-color: var(--bg-dark);
       color: var(--text-main);
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-family: 'Segoe UI', system-ui, sans-serif;
       display: flex;
       flex-direction: column;
       height: 100vh;
       overflow: hidden;
     }
 
-    /* Top Bar */
     .header {
       background: rgba(18, 18, 23, 0.95);
       border-bottom: 1px solid var(--border-color);
@@ -42,7 +37,6 @@
       justify-content: space-between;
       align-items: center;
       z-index: 10;
-      backdrop-filter: blur(10px);
     }
 
     .brand-title {
@@ -55,10 +49,7 @@
       text-transform: uppercase;
     }
 
-    .controls {
-      display: flex;
-      gap: 12px;
-    }
+    .controls { display: flex; gap: 12px; }
 
     .btn {
       background: #1f1f2a;
@@ -69,55 +60,24 @@
       cursor: pointer;
       font-size: 0.85rem;
       font-weight: 600;
-      transition: all 0.2s ease-in-out;
     }
 
-    .btn:hover {
-      border-color: var(--accent-gold);
-      color: #fff;
-    }
+    .btn:hover { border-color: var(--accent-gold); color: #fff; }
+    .btn-clear { background: rgba(230, 57, 70, 0.1); border-color: rgba(230, 57, 70, 0.3); color: #ff6b6b; }
+    .btn-clear:hover { background: var(--danger-color); color: #fff; }
+    .btn-gold { background: var(--accent-gold-gradient); color: #000; border: none; font-weight: 700; }
 
-    .btn-clear {
-      background: rgba(230, 57, 70, 0.1);
-      border-color: rgba(230, 57, 70, 0.3);
-      color: #ff6b6b;
-    }
-
-    .btn-clear:hover {
-      background: var(--danger-color);
-      color: #fff;
-      border-color: var(--danger-color);
-    }
-
-    .btn-gold {
-      background: var(--accent-gold-gradient);
-      color: #000;
-      border: none;
-      font-weight: 700;
-      box-shadow: 0 2px 10px rgba(212, 175, 55, 0.2);
-    }
-
-    .btn-gold:hover {
-      opacity: 0.9;
-      transform: translateY(-1px);
-    }
-
-    /* Layout */
-    .main-container {
-      display: flex;
-      flex: 1;
-      height: calc(100vh - 61px);
-    }
+    .main-container { display: flex; flex: 1; height: calc(100vh - 61px); }
 
     .input-panel {
-      width: 380px;
-      min-width: 320px;
+      width: 400px;
+      min-width: 340px;
       background: var(--panel-bg);
       border-right: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
       gap: 16px;
-      padding: 20px 16px;
+      padding: 16px;
       overflow-y: auto;
     }
 
@@ -125,11 +85,10 @@
       background: var(--card-bg);
       border: 1px solid var(--border-color);
       border-radius: 8px;
-      padding: 14px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      gap: 8px;
     }
 
     .section-title {
@@ -137,69 +96,42 @@
       font-weight: 700;
       color: var(--accent-gold);
       text-transform: uppercase;
-      letter-spacing: 0.5px;
     }
 
-    .file-input-wrapper input[type="file"] {
-      display: none;
-    }
+    .file-input-wrapper input[type="file"] { display: none; }
 
     .file-label {
       display: block;
       background: #111116;
       border: 1px dashed var(--border-color);
-      padding: 10px;
+      padding: 8px;
       text-align: center;
       border-radius: 6px;
       color: var(--text-muted);
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       cursor: pointer;
-      transition: all 0.2s ease;
     }
-
-    .file-label:hover {
-      border-color: var(--accent-gold);
-      color: var(--text-main);
-    }
+    .file-label:hover { border-color: var(--accent-gold); color: var(--text-main); }
 
     textarea {
       width: 100%;
-      height: 200px;
+      height: 180px;
       background: #0b0b0e;
       border: 1px solid var(--border-color);
       border-radius: 6px;
       color: #7ef2a9;
-      font-family: 'Consolas', 'Courier New', monospace;
+      font-family: 'Consolas', monospace;
       font-size: 0.85rem;
       padding: 10px;
       resize: vertical;
       outline: none;
-      transition: border-color 0.2s ease;
     }
-
-    textarea:focus {
-      border-color: var(--accent-gold);
-    }
-
+    textarea:focus { border-color: var(--accent-gold); }
     #jsCode { color: #64dfdf; }
 
-    /* Right Preview Screen */
-    .preview-panel {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      background: #000;
-    }
+    .preview-panel { flex: 1; display: flex; flex-direction: column; height: 100%; background: #000; }
+    iframe { width: 100%; flex: 1; border: none; background: #ffffff; }
 
-    iframe {
-      width: 100%;
-      flex: 1;
-      border: none;
-      background: #0d0d12;
-    }
-
-    /* Console View */
     .console-box {
       height: 130px;
       background: #09090d;
@@ -210,30 +142,13 @@
       overflow-y: auto;
       color: #38bdf8;
     }
-
-    .console-header {
-      color: var(--accent-gold);
-      font-weight: bold;
-      margin-bottom: 6px;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      display: flex;
-      justify-content: space-between;
-    }
-
+    .console-header { color: var(--accent-gold); font-weight: bold; margin-bottom: 6px; font-size: 0.75rem; display: flex; justify-content: space-between; }
     .console-log { margin-bottom: 4px; word-break: break-all; }
     .console-error { color: #ff6b6b; }
-
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: var(--bg-dark); }
-    ::-webkit-scrollbar-thumb { background: #2a2a35; border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--accent-gold); }
   </style>
 </head>
 <body>
 
-  <!-- Top Navigation Header -->
   <div class="header">
     <div class="brand-title">Code Preview</div>
     <div class="controls">
@@ -242,33 +157,30 @@
     </div>
   </div>
 
-  <!-- Workspace -->
   <div class="main-container">
     
-    <!-- Left Sidebar -->
     <div class="input-panel">
-      <!-- CSS Upload Box -->
+      <!-- CSS Box -->
       <div class="section-box">
-        <div class="section-title">CSS Stylesheet</div>
+        <div class="section-title">CSS Stylesheet (.css)</div>
         <div class="file-input-wrapper">
           <label class="file-label" for="cssFileInput" id="cssFileLabel">Upload .css File</label>
           <input type="file" id="cssFileInput" accept=".css" onchange="handleFileUpload(event, 'cssCode', 'cssFileLabel')">
         </div>
-        <textarea id="cssCode" placeholder="Paste CSS code here..." oninput="updatePreview()"></textarea>
+        <textarea id="cssCode" placeholder="Paste CSS code or upload file..." oninput="updatePreview()"></textarea>
       </div>
 
-      <!-- JS Upload Box -->
+      <!-- JS Box -->
       <div class="section-box">
-        <div class="section-title">JavaScript Code</div>
+        <div class="section-title">JavaScript Code (.js)</div>
         <div class="file-input-wrapper">
           <label class="file-label" for="jsFileInput" id="jsFileLabel">Upload .js File</label>
           <input type="file" id="jsFileInput" accept=".js" onchange="handleFileUpload(event, 'jsCode', 'jsFileLabel')">
         </div>
-        <textarea id="jsCode" placeholder="Paste JS code here..." oninput="updatePreview()"></textarea>
+        <textarea id="jsCode" placeholder="Paste JS code or upload file..." oninput="updatePreview()"></textarea>
       </div>
     </div>
 
-    <!-- Live Preview & Console Window -->
     <div class="preview-panel">
       <iframe id="previewFrame"></iframe>
       
@@ -292,21 +204,7 @@
 
       clearConsole();
 
-      // Dynamically detect any IDs used in getElementById
-      let detectedIds = [];
-      const idMatches = js.matchAll(/document\.getElementById\(['"]([^'"]+)['"]\)/g);
-      for (const match of idMatches) {
-        if (!detectedIds.includes(match[1])) {
-          detectedIds.push(match[1]);
-        }
-      }
-
-      // Build fallback DOM elements if missing
-      let extraElementsHtml = detectedIds
-        .filter(id => id !== 'statusAlert')
-        .map(id => `<div id="${id}" class="${id}"></div>`)
-        .join('\n');
-
+      // Automatically generating a complete HTML structure page for the user's CSS and JS
       const fullSource = `
         <!DOCTYPE html>
         <html>
@@ -314,102 +212,23 @@
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <style>
-            * { box-sizing: border-box; margin: 0; padding: 0; }
-            body { 
-              min-height: 100vh;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              background: #0d0d12;
-              color: #ffffff;
-              font-family: 'Segoe UI', system-ui, sans-serif;
-              padding: 20px;
-            }
-
-            /* Smart Wrapper Card */
-            .preview-card {
-              background: #16161e;
-              border: 1px solid #2a2a38;
-              border-radius: 16px;
-              padding: 30px;
-              width: 100%;
-              max-width: 500px;
-              box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-              text-align: center;
-              animation: fadeIn 0.4s ease-in-out;
-            }
-
-            /* Built-in Status Alert Box */
-            #statusAlert, .status-alert {
-              display: none;
-              padding: 12px 16px;
-              border-radius: 8px;
-              font-size: 0.9rem;
-              font-weight: 600;
-              margin-bottom: 20px;
-              transition: all 0.3s ease;
-            }
-
-            .status-alert.error {
-              display: block !important;
-              background: rgba(230, 57, 70, 0.15);
-              color: #ff6b6b;
-              border: 1px solid rgba(230, 57, 70, 0.4);
-            }
-
-            .status-alert.success {
-              display: block !important;
-              background: rgba(46, 196, 182, 0.15);
-              color: #2ec4b6;
-              border: 1px solid rgba(46, 196, 182, 0.4);
-            }
-
-            .demo-btn {
-              background: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728);
-              color: #000;
-              border: none;
-              padding: 12px 24px;
-              font-size: 0.95rem;
-              font-weight: 700;
-              border-radius: 8px;
-              cursor: pointer;
-              transition: transform 0.2s, box-shadow 0.2s;
-              margin-top: 10px;
-            }
-
-            .demo-btn:hover {
-              transform: translateY(-2px);
-              box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
-            }
-
-            @keyframes fadeIn {
-              from { opacity: 0; transform: translateY(10px); }
-              to { opacity: 1; transform: translateY(0); }
-            }
-
-            /* Custom Uploaded CSS */
+            body { margin: 20px; font-family: sans-serif; background: #fff; color: #333; }
             ${css}
           </style>
         </head>
         <body>
-
-          <div class="preview-card" id="app">
-            <!-- Auto-Rendered Alert Container -->
-            <div id="statusAlert" class="status-alert"></div>
-
-            <h2 style="margin-bottom:10px; font-weight:700;">Live Preview Container</h2>
-            <p style="color:#8a8a9e; font-size:0.88rem; margin-bottom:20px;">
-              Uploaded CSS & JS animations and functions are executing automatically below.
-            </p>
-
-            <!-- Test Action Button -->
-            <button class="demo-btn" id="testTriggerBtn" onclick="runTrigger()">Trigger JS Function</button>
-
-            ${extraElementsHtml}
+          <!-- Auto-Generated Structural Elements for Testing Forms/Alerts/Animations -->
+          <div id="app">
+            <div id="statusAlert" style="display:none; padding:10px; margin-bottom:15px; border-radius:4px;"></div>
+            <h2>Live Test Page</h2>
+            <p>Your uploaded CSS & JS are rendering below:</p>
+            <div style="margin-top: 15px;">
+              <input type="text" id="testInput" placeholder="Test Input Field" style="padding: 8px; width: 200px; margin-right: 10px;">
+              <button id="submitBtn" style="padding: 8px 15px; cursor: pointer;">Submit</button>
+            </div>
           </div>
 
           <script>
-            // Forward iframe logs to main page console
             const customLog = function(...args) {
               window.parent.postMessage({ type: 'log', data: args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ') }, '*');
             };
@@ -419,27 +238,8 @@
             console.log = customLog;
             console.error = customError;
 
-            // Trigger handler
-            function runTrigger() {
-              if (typeof showAlert === 'function') {
-                showAlert('Success! Action triggered successfully.', false);
-              } else {
-                console.log('Button Clicked: Custom JS loaded.');
-                const box = document.getElementById('statusAlert');
-                if(box) {
-                  box.className = 'status-alert success';
-                  box.innerText = 'Action Executed!';
-                }
-              }
-            }
-
             try {
               ${js}
-
-              // Auto-execute showAlert if present
-              if (typeof showAlert === 'function') {
-                showAlert('Testing Alert System Enabled', false);
-              }
             } catch (err) {
               console.error(err.message);
             }
@@ -453,7 +253,6 @@
       iframeDoc.close();
     }
 
-    // Capture console output messages
     window.addEventListener('message', function(e) {
       if (!e.data || !e.data.type) return;
       const consoleBox = document.getElementById('consoleOutput');
@@ -493,13 +292,10 @@
     function clearAll() {
       document.getElementById('cssCode').value = '';
       document.getElementById('jsCode').value = '';
-      
       document.getElementById('cssFileLabel').innerText = "Upload .css File";
       document.getElementById('jsFileLabel').innerText = "Upload .js File";
-      
       document.getElementById('cssFileInput').value = '';
       document.getElementById('jsFileInput').value = '';
-      
       clearConsole();
       updatePreview();
     }
