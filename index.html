@@ -22,13 +22,14 @@
     body {
       background-color: var(--bg-dark);
       color: var(--text-main);
-      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
       display: flex;
       flex-direction: column;
       height: 100vh;
       overflow: hidden;
     }
 
+    /* Top Navigation Header */
     .header {
       background: rgba(18, 18, 23, 0.95);
       border-bottom: 1px solid var(--border-color);
@@ -40,7 +41,7 @@
     }
 
     .brand-title {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 800;
       background: var(--accent-gold-gradient);
       -webkit-background-clip: text;
@@ -60,6 +61,7 @@
       cursor: pointer;
       font-size: 0.85rem;
       font-weight: 600;
+      transition: all 0.2s ease;
     }
 
     .btn:hover { border-color: var(--accent-gold); color: #fff; }
@@ -67,11 +69,12 @@
     .btn-clear:hover { background: var(--danger-color); color: #fff; }
     .btn-gold { background: var(--accent-gold-gradient); color: #000; border: none; font-weight: 700; }
 
+    /* Layout Workspace */
     .main-container { display: flex; flex: 1; height: calc(100vh - 61px); }
 
     .input-panel {
-      width: 400px;
-      min-width: 340px;
+      width: 380px;
+      min-width: 320px;
       background: var(--panel-bg);
       border-right: 1px solid var(--border-color);
       display: flex;
@@ -96,6 +99,7 @@
       font-weight: 700;
       color: var(--accent-gold);
       text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .file-input-wrapper input[type="file"] { display: none; }
@@ -115,7 +119,7 @@
 
     textarea {
       width: 100%;
-      height: 180px;
+      height: 200px;
       background: #0b0b0e;
       border: 1px solid var(--border-color);
       border-radius: 6px;
@@ -129,11 +133,13 @@
     textarea:focus { border-color: var(--accent-gold); }
     #jsCode { color: #64dfdf; }
 
+    /* Right Side Output Canvas */
     .preview-panel { flex: 1; display: flex; flex-direction: column; height: 100%; background: #000; }
     iframe { width: 100%; flex: 1; border: none; background: #ffffff; }
 
+    /* Console Box for Logs */
     .console-box {
-      height: 130px;
+      height: 120px;
       background: #09090d;
       border-top: 2px solid var(--border-color);
       padding: 10px 15px;
@@ -159,28 +165,30 @@
 
   <div class="main-container">
     
+    <!-- Input Sidebar -->
     <div class="input-panel">
-      <!-- CSS Box -->
+      <!-- 1. CSS Box -->
       <div class="section-box">
-        <div class="section-title">CSS Stylesheet (.css)</div>
+        <div class="section-title">CSS STYLESHEET</div>
         <div class="file-input-wrapper">
           <label class="file-label" for="cssFileInput" id="cssFileLabel">Upload .css File</label>
           <input type="file" id="cssFileInput" accept=".css" onchange="handleFileUpload(event, 'cssCode', 'cssFileLabel')">
         </div>
-        <textarea id="cssCode" placeholder="Paste CSS code or upload file..." oninput="updatePreview()"></textarea>
+        <textarea id="cssCode" placeholder="Paste CSS code here..." oninput="updatePreview()"></textarea>
       </div>
 
-      <!-- JS Box -->
+      <!-- 2. JS Box -->
       <div class="section-box">
-        <div class="section-title">JavaScript Code (.js)</div>
+        <div class="section-title">JAVASCRIPT CODE</div>
         <div class="file-input-wrapper">
           <label class="file-label" for="jsFileInput" id="jsFileLabel">Upload .js File</label>
           <input type="file" id="jsFileInput" accept=".js" onchange="handleFileUpload(event, 'jsCode', 'jsFileLabel')">
         </div>
-        <textarea id="jsCode" placeholder="Paste JS code or upload file..." oninput="updatePreview()"></textarea>
+        <textarea id="jsCode" placeholder="Paste JS code here..." oninput="updatePreview()"></textarea>
       </div>
     </div>
 
+    <!-- Right Live Render Panel -->
     <div class="preview-panel">
       <iframe id="previewFrame"></iframe>
       
@@ -204,7 +212,7 @@
 
       clearConsole();
 
-      // Automatically generating a complete HTML structure page for the user's CSS and JS
+      // Pure HTML Page Execution Environment with NO extra layout elements
       const fullSource = `
         <!DOCTYPE html>
         <html>
@@ -212,23 +220,12 @@
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <style>
-            body { margin: 20px; font-family: sans-serif; background: #fff; color: #333; }
             ${css}
           </style>
         </head>
         <body>
-          <!-- Auto-Generated Structural Elements for Testing Forms/Alerts/Animations -->
-          <div id="app">
-            <div id="statusAlert" style="display:none; padding:10px; margin-bottom:15px; border-radius:4px;"></div>
-            <h2>Live Test Page</h2>
-            <p>Your uploaded CSS & JS are rendering below:</p>
-            <div style="margin-top: 15px;">
-              <input type="text" id="testInput" placeholder="Test Input Field" style="padding: 8px; width: 200px; margin-right: 10px;">
-              <button id="submitBtn" style="padding: 8px 15px; cursor: pointer;">Submit</button>
-            </div>
-          </div>
-
           <script>
+            // Forward iframe logs to parent console window
             const customLog = function(...args) {
               window.parent.postMessage({ type: 'log', data: args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ') }, '*');
             };
@@ -253,6 +250,7 @@
       iframeDoc.close();
     }
 
+    // Capture JS Console logs and errors
     window.addEventListener('message', function(e) {
       if (!e.data || !e.data.type) return;
       const consoleBox = document.getElementById('consoleOutput');
