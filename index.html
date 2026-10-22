@@ -67,9 +67,32 @@
     .btn:hover { border-color: var(--accent-gold); color: #fff; }
     .btn-clear { background: rgba(230, 57, 70, 0.1); border-color: rgba(230, 57, 70, 0.3); color: #ff6b6b; }
     .btn-clear:hover { background: var(--danger-color); color: #fff; }
-    .btn-gold { background: var(--accent-gold-gradient); color: #000; border: none; font-weight: 700; }
 
-    /* Layout Workspace */
+    /* Submit Button Styling */
+    .btn-submit {
+      background: var(--accent-gold-gradient);
+      color: #000;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.25);
+      transition: all 0.2s ease;
+      margin-top: 5px;
+      width: 100%;
+    }
+
+    .btn-submit:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+    }
+
+    /* Main Workspace Layout */
     .main-container { display: flex; flex: 1; height: calc(100vh - 61px); }
 
     .input-panel {
@@ -119,7 +142,7 @@
 
     textarea {
       width: 100%;
-      height: 200px;
+      height: 180px;
       background: #0b0b0e;
       border: 1px solid var(--border-color);
       border-radius: 6px;
@@ -133,11 +156,11 @@
     textarea:focus { border-color: var(--accent-gold); }
     #jsCode { color: #64dfdf; }
 
-    /* Right Side Output Canvas */
+    /* Output Canvas Panel */
     .preview-panel { flex: 1; display: flex; flex-direction: column; height: 100%; background: #000; }
     iframe { width: 100%; flex: 1; border: none; background: #ffffff; }
 
-    /* Console Box for Logs */
+    /* Console Panel */
     .console-box {
       height: 120px;
       background: #09090d;
@@ -155,43 +178,49 @@
 </head>
 <body>
 
+  <!-- Header -->
   <div class="header">
     <div class="brand-title">Code Preview</div>
     <div class="controls">
       <button class="btn btn-clear" onclick="clearAll()">Clear All</button>
-      <button class="btn btn-gold" onclick="updatePreview()">Render Preview</button>
     </div>
   </div>
 
   <div class="main-container">
     
-    <!-- Input Sidebar -->
+    <!-- Left Input Panel -->
     <div class="input-panel">
-      <!-- 1. CSS Box -->
+      
+      <!-- 1. CSS Upload / Input Box -->
       <div class="section-box">
         <div class="section-title">CSS STYLESHEET</div>
         <div class="file-input-wrapper">
           <label class="file-label" for="cssFileInput" id="cssFileLabel">Upload .css File</label>
           <input type="file" id="cssFileInput" accept=".css" onchange="handleFileUpload(event, 'cssCode', 'cssFileLabel')">
         </div>
-        <textarea id="cssCode" placeholder="Paste CSS code here..." oninput="updatePreview()"></textarea>
+        <textarea id="cssCode" placeholder="Paste CSS code here..."></textarea>
       </div>
 
-      <!-- 2. JS Box -->
+      <!-- 2. JS Upload / Input Box -->
       <div class="section-box">
         <div class="section-title">JAVASCRIPT CODE</div>
         <div class="file-input-wrapper">
           <label class="file-label" for="jsFileInput" id="jsFileLabel">Upload .js File</label>
           <input type="file" id="jsFileInput" accept=".js" onchange="handleFileUpload(event, 'jsCode', 'jsFileLabel')">
         </div>
-        <textarea id="jsCode" placeholder="Paste JS code here..." oninput="updatePreview()"></textarea>
+        <textarea id="jsCode" placeholder="Paste JS code here..."></textarea>
       </div>
+
+      <!-- Submit Button -->
+      <button class="btn-submit" onclick="submitToHtmlPage()">Submit & Generate Page</button>
+
     </div>
 
-    <!-- Right Live Render Panel -->
+    <!-- Right Live HTML Page Preview Output -->
     <div class="preview-panel">
       <iframe id="previewFrame"></iframe>
       
+      <!-- Console View -->
       <div class="console-box" id="consoleOutput">
         <div class="console-header">
           <span>Console Output / JS Result</span>
@@ -203,7 +232,8 @@
   </div>
 
   <script>
-    function updatePreview() {
+    // Function that converts CSS + JS into a live complete HTML Page
+    function submitToHtmlPage() {
       const css = document.getElementById('cssCode').value;
       const js = document.getElementById('jsCode').value;
 
@@ -212,20 +242,53 @@
 
       clearConsole();
 
-      // Pure HTML Page Execution Environment with NO extra layout elements
-      const fullSource = `
+      // Generating complete HTML structure dynamically based on user CSS & JS
+      const generatedHtmlDocument = `
         <!DOCTYPE html>
         <html>
         <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <style>
+            /* Base HTML layout defaults */
+            body { 
+              margin: 0; 
+              padding: 20px; 
+              font-family: system-ui, -apple-system, sans-serif;
+            }
+            .status-alert {
+              padding: 15px 20px;
+              border-radius: 8px;
+              font-weight: 600;
+              margin-bottom: 20px;
+              display: none;
+            }
+            .status-alert.success {
+              display: block !important;
+              background: #003820;
+              color: #00ff88;
+              border: 1px solid #00ff88;
+            }
+            .status-alert.error {
+              display: block !important;
+              background: #38000a;
+              color: #ff4d6d;
+              border: 1px solid #ff4d6d;
+            }
+            
+            /* User's CSS Stylesheet applied here */
             ${css}
           </style>
         </head>
         <body>
+          
+          <!-- Dynamic Target Containers for JS execution -->
+          <div id="statusAlert" class="status-alert"></div>
+          <div id="app"></div>
+          <div id="root"></div>
+
           <script>
-            // Forward iframe logs to parent console window
+            // Console logger mapping to the main interface
             const customLog = function(...args) {
               window.parent.postMessage({ type: 'log', data: args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ') }, '*');
             };
@@ -236,7 +299,13 @@
             console.error = customError;
 
             try {
+              /* User's JS execution */
               ${js}
+
+              // Auto execute function if present in uploaded JS (like showAlert)
+              if (typeof showAlert === 'function') {
+                showAlert('Page Generated: HTML Page is Live!', false);
+              }
             } catch (err) {
               console.error(err.message);
             }
@@ -246,11 +315,11 @@
       `;
 
       iframeDoc.open();
-      iframeDoc.write(fullSource);
+      iframeDoc.write(generatedHtmlDocument);
       iframeDoc.close();
     }
 
-    // Capture JS Console logs and errors
+    // Capture console messages from preview iframe
     window.addEventListener('message', function(e) {
       if (!e.data || !e.data.type) return;
       const consoleBox = document.getElementById('consoleOutput');
@@ -273,6 +342,7 @@
       consoleBox.innerHTML = '<div class="console-header"><span>Console Output / JS Result</span><span style="cursor:pointer; color:#8a8a9e;" onclick="clearConsole()">Clear Console</span></div>';
     }
 
+    // Handle uploaded files
     function handleFileUpload(event, targetTextareaId, labelId) {
       const file = event.target.files[0];
       if (!file) return;
@@ -282,11 +352,11 @@
       const reader = new FileReader();
       reader.onload = function(e) {
         document.getElementById(targetTextareaId).value = e.target.result;
-        updatePreview();
       };
       reader.readAsText(file);
     }
 
+    // Clear Button Logic
     function clearAll() {
       document.getElementById('cssCode').value = '';
       document.getElementById('jsCode').value = '';
@@ -295,10 +365,14 @@
       document.getElementById('cssFileInput').value = '';
       document.getElementById('jsFileInput').value = '';
       clearConsole();
-      updatePreview();
+      
+      // Clear iframe preview screen
+      const iframe = document.getElementById('previewFrame');
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+      iframeDoc.open();
+      iframeDoc.write('');
+      iframeDoc.close();
     }
-
-    updatePreview();
   </script>
 </body>
 </html>
