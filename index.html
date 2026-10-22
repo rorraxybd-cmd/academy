@@ -29,19 +29,20 @@
       overflow: hidden;
     }
 
-    /* Top Navigation Header */
+    /* Ultra-Slim Top Navigation Header */
     .header {
-      background: rgba(18, 18, 23, 0.95);
+      background: rgba(18, 18, 23, 0.98);
       border-bottom: 1px solid var(--border-color);
-      padding: 12px 24px;
+      padding: 6px 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       z-index: 10;
+      height: 42px;
     }
 
     .brand-title {
-      font-size: 1.2rem;
+      font-size: 1rem;
       font-weight: 800;
       background: var(--accent-gold-gradient);
       -webkit-background-clip: text;
@@ -50,16 +51,43 @@
       text-transform: uppercase;
     }
 
-    .controls { display: flex; gap: 12px; }
+    .controls { display: flex; gap: 8px; align-items: center; }
+
+    /* View Switcher Controls */
+    .view-switcher {
+      display: flex;
+      background: #111116;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 2px;
+      margin-right: 10px;
+    }
+
+    .view-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .view-btn.active {
+      background: #22222d;
+      color: var(--accent-gold);
+    }
 
     .btn {
       background: #1f1f2a;
       color: var(--text-main);
       border: 1px solid var(--border-color);
-      padding: 8px 18px;
+      padding: 5px 12px;
       border-radius: 6px;
       cursor: pointer;
-      font-size: 0.85rem;
+      font-size: 0.78rem;
       font-weight: 600;
       transition: all 0.2s ease;
     }
@@ -68,42 +96,42 @@
     .btn-clear { background: rgba(230, 57, 70, 0.1); border-color: rgba(230, 57, 70, 0.3); color: #ff6b6b; }
     .btn-clear:hover { background: var(--danger-color); color: #fff; }
 
-    /* Submit Button Styling */
-    .btn-submit {
+    /* Generate Button */
+    .btn-generate {
       background: var(--accent-gold-gradient);
       color: #000;
       border: none;
-      padding: 12px 20px;
+      padding: 10px 16px;
       border-radius: 8px;
       font-weight: 800;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       cursor: pointer;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.25);
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
       transition: all 0.2s ease;
-      margin-top: 5px;
+      margin-top: 4px;
       width: 100%;
     }
 
-    .btn-submit:hover {
+    .btn-generate:hover {
       opacity: 0.92;
       transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
     }
 
-    /* Main Workspace Layout */
-    .main-container { display: flex; flex: 1; height: calc(100vh - 61px); }
+    /* Main Container Layout */
+    .main-container { display: flex; flex: 1; height: calc(100vh - 42px); }
 
     .input-panel {
-      width: 380px;
-      min-width: 320px;
+      width: 360px;
+      min-width: 300px;
       background: var(--panel-bg);
       border-right: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      padding: 16px;
+      gap: 12px;
+      padding: 12px;
       overflow-y: auto;
     }
 
@@ -111,14 +139,14 @@
       background: var(--card-bg);
       border: 1px solid var(--border-color);
       border-radius: 8px;
-      padding: 12px;
+      padding: 10px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
     }
 
     .section-title {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 700;
       color: var(--accent-gold);
       text-transform: uppercase;
@@ -131,57 +159,86 @@
       display: block;
       background: #111116;
       border: 1px dashed var(--border-color);
-      padding: 8px;
+      padding: 7px;
       text-align: center;
       border-radius: 6px;
       color: var(--text-muted);
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       cursor: pointer;
     }
     .file-label:hover { border-color: var(--accent-gold); color: var(--text-main); }
 
     textarea {
       width: 100%;
-      height: 180px;
+      height: 200px;
       background: #0b0b0e;
       border: 1px solid var(--border-color);
       border-radius: 6px;
       color: #7ef2a9;
       font-family: 'Consolas', monospace;
-      font-size: 0.85rem;
-      padding: 10px;
+      font-size: 0.82rem;
+      padding: 8px;
       resize: vertical;
       outline: none;
     }
     textarea:focus { border-color: var(--accent-gold); }
     #jsCode { color: #64dfdf; }
 
-    /* Output Canvas Panel */
-    .preview-panel { flex: 1; display: flex; flex-direction: column; height: 100%; background: #000; }
-    iframe { width: 100%; flex: 1; border: none; background: #ffffff; }
-
-    /* Console Panel */
-    .console-box {
-      height: 120px;
-      background: #09090d;
-      border-top: 2px solid var(--border-color);
-      padding: 10px 15px;
-      font-family: 'Consolas', monospace;
-      font-size: 0.82rem;
-      overflow-y: auto;
-      color: #38bdf8;
+    /* Maximized Full Height Preview Canvas */
+    .preview-panel {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      background: #000000;
+      overflow: hidden;
+      position: relative;
     }
-    .console-header { color: var(--accent-gold); font-weight: bold; margin-bottom: 6px; font-size: 0.75rem; display: flex; justify-content: space-between; }
-    .console-log { margin-bottom: 4px; word-break: break-all; }
-    .console-error { color: #ff6b6b; }
+
+    /* Responsive Iframe Frame Container */
+    .iframe-wrapper {
+      width: 100%;
+      height: 100%;
+      transition: all 0.3s ease-in-out;
+      background: #ffffff;
+      box-shadow: 0 0 30px rgba(0,0,0,0.8);
+    }
+
+    .iframe-wrapper.mobile-view {
+      width: 375px;
+      height: 667px;
+      border-radius: 20px;
+      border: 8px solid #222;
+      overflow: hidden;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #ffffff;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg-dark); }
+    ::-webkit-scrollbar-thumb { background: #2a2a35; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent-gold); }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
+  <!-- Top Header Bar -->
   <div class="header">
     <div class="brand-title">Code Preview</div>
     <div class="controls">
+      <!-- Device View Switcher -->
+      <div class="view-switcher">
+        <button class="view-btn active" id="desktopViewBtn" onclick="switchView('desktop')">💻 Desktop</button>
+        <button class="view-btn" id="mobileViewBtn" onclick="switchView('mobile')">📱 Mobile</button>
+      </div>
+
       <button class="btn btn-clear" onclick="clearAll()">Clear All</button>
     </div>
   </div>
@@ -191,7 +248,7 @@
     <!-- Left Input Panel -->
     <div class="input-panel">
       
-      <!-- 1. CSS Upload / Input Box -->
+      <!-- 1. CSS Box -->
       <div class="section-box">
         <div class="section-title">CSS STYLESHEET</div>
         <div class="file-input-wrapper">
@@ -201,7 +258,7 @@
         <textarea id="cssCode" placeholder="Paste CSS code here..."></textarea>
       </div>
 
-      <!-- 2. JS Upload / Input Box -->
+      <!-- 2. JS Box -->
       <div class="section-box">
         <div class="section-title">JAVASCRIPT CODE</div>
         <div class="file-input-wrapper">
@@ -211,103 +268,50 @@
         <textarea id="jsCode" placeholder="Paste JS code here..."></textarea>
       </div>
 
-      <!-- Submit Button -->
-      <button class="btn-submit" onclick="submitToHtmlPage()">Submit & Generate Page</button>
+      <!-- Generate Button -->
+      <button class="btn-generate" onclick="generatePage()">GENERATE</button>
 
     </div>
 
-    <!-- Right Live HTML Page Preview Output -->
+    <!-- Right Live Preview Screen (Full Screen Height) -->
     <div class="preview-panel">
-      <iframe id="previewFrame"></iframe>
-      
-      <!-- Console View -->
-      <div class="console-box" id="consoleOutput">
-        <div class="console-header">
-          <span>Console Output / JS Result</span>
-          <span style="cursor:pointer; color:#8a8a9e;" onclick="clearConsole()">Clear Console</span>
-        </div>
+      <div class="iframe-wrapper" id="iframeWrapper">
+        <iframe id="previewFrame"></iframe>
       </div>
     </div>
 
   </div>
 
   <script>
-    // Function that converts CSS + JS into a live complete HTML Page
-    function submitToHtmlPage() {
+    // Core function to build the live HTML page
+    function generatePage() {
       const css = document.getElementById('cssCode').value;
       const js = document.getElementById('jsCode').value;
 
       const iframe = document.getElementById('previewFrame');
       const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
 
-      clearConsole();
-
-      // Generating complete HTML structure dynamically based on user CSS & JS
-      const generatedHtmlDocument = `
+      // Clean HTML Document execution
+      const fullSource = `
         <!DOCTYPE html>
         <html>
         <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <style>
-            /* Base HTML layout defaults */
-            body { 
-              margin: 0; 
-              padding: 20px; 
-              font-family: system-ui, -apple-system, sans-serif;
-            }
-            .status-alert {
-              padding: 15px 20px;
-              border-radius: 8px;
-              font-weight: 600;
-              margin-bottom: 20px;
-              display: none;
-            }
-            .status-alert.success {
-              display: block !important;
-              background: #003820;
-              color: #00ff88;
-              border: 1px solid #00ff88;
-            }
-            .status-alert.error {
-              display: block !important;
-              background: #38000a;
-              color: #ff4d6d;
-              border: 1px solid #ff4d6d;
-            }
-            
-            /* User's CSS Stylesheet applied here */
             ${css}
           </style>
         </head>
         <body>
-          
-          <!-- Dynamic Target Containers for JS execution -->
-          <div id="statusAlert" class="status-alert"></div>
+          <div id="statusAlert" style="display:none;"></div>
           <div id="app"></div>
           <div id="root"></div>
 
           <script>
-            // Console logger mapping to the main interface
-            const customLog = function(...args) {
-              window.parent.postMessage({ type: 'log', data: args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ') }, '*');
-            };
-            const customError = function(...args) {
-              window.parent.postMessage({ type: 'error', data: args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ') }, '*');
-            };
-            console.log = customLog;
-            console.error = customError;
-
             try {
-              /* User's JS execution */
               ${js}
-
-              // Auto execute function if present in uploaded JS (like showAlert)
-              if (typeof showAlert === 'function') {
-                showAlert('Page Generated: HTML Page is Live!', false);
-              }
             } catch (err) {
-              console.error(err.message);
+              console.error(err);
             }
           <\/script>
         </body>
@@ -315,34 +319,28 @@
       `;
 
       iframeDoc.open();
-      iframeDoc.write(generatedHtmlDocument);
+      iframeDoc.write(fullSource);
       iframeDoc.close();
     }
 
-    // Capture console messages from preview iframe
-    window.addEventListener('message', function(e) {
-      if (!e.data || !e.data.type) return;
-      const consoleBox = document.getElementById('consoleOutput');
-      const logDiv = document.createElement('div');
-      
-      if (e.data.type === 'log') {
-        logDiv.className = 'console-log';
-        logDiv.innerText = '> ' + e.data.data;
-      } else if (e.data.type === 'error') {
-        logDiv.className = 'console-log console-error';
-        logDiv.innerText = 'Error: ' + e.data.data;
-      }
-      
-      consoleBox.appendChild(logDiv);
-      consoleBox.scrollTop = consoleBox.scrollHeight;
-    });
+    // Switch between Desktop and Mobile screen view
+    function switchView(mode) {
+      const wrapper = document.getElementById('iframeWrapper');
+      const desktopBtn = document.getElementById('desktopViewBtn');
+      const mobileBtn = document.getElementById('mobileViewBtn');
 
-    function clearConsole() {
-      const consoleBox = document.getElementById('consoleOutput');
-      consoleBox.innerHTML = '<div class="console-header"><span>Console Output / JS Result</span><span style="cursor:pointer; color:#8a8a9e;" onclick="clearConsole()">Clear Console</span></div>';
+      if (mode === 'mobile') {
+        wrapper.classList.add('mobile-view');
+        mobileBtn.classList.add('active');
+        desktopBtn.classList.remove('active');
+      } else {
+        wrapper.classList.remove('mobile-view');
+        desktopBtn.classList.add('active');
+        mobileBtn.classList.remove('active');
+      }
     }
 
-    // Handle uploaded files
+    // File Upload Handler
     function handleFileUpload(event, targetTextareaId, labelId) {
       const file = event.target.files[0];
       if (!file) return;
@@ -356,7 +354,7 @@
       reader.readAsText(file);
     }
 
-    // Clear Button Logic
+    // Clear All Functionality
     function clearAll() {
       document.getElementById('cssCode').value = '';
       document.getElementById('jsCode').value = '';
@@ -364,9 +362,7 @@
       document.getElementById('jsFileLabel').innerText = "Upload .js File";
       document.getElementById('cssFileInput').value = '';
       document.getElementById('jsFileInput').value = '';
-      clearConsole();
       
-      // Clear iframe preview screen
       const iframe = document.getElementById('previewFrame');
       const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
       iframeDoc.open();
